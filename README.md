@@ -1,6 +1,6 @@
 # WACloud_ExportApp
-WARC Export application 
 
+WARC Export application 
 
 ## Funding - dedication
 
@@ -37,6 +37,20 @@ The work of this project - Centralised interface for Webarchive big data extract
 
 ### Windows (CMD)
 
+=======
+# Development
+
+## Linux (bash)
+
+- create a virtual environment (venv): `python3 -m venv venv`
+- activate the venv: `. ./venv/bin/activate`
+- install requirements: `pip install -r requirements.txt`
+- run the server: `export FLASK_APP=app && flask run`
+- if you want to exit, terminate server app (Ctrl+C) and exit the venv: `deactivate`
+
+## Windows (CMD)
+
+>>>>>>> First version of exporter
 - create a virtual environment (venv): `py -3 -m venv venv`
 - activate the venv: `venv\Scripts\activate`
 - install requirements: `pip install -r requirements.txt`
@@ -47,7 +61,11 @@ flask run
 ```
 - if you want to exit, terminate server app (Ctrl+C) and exit the venv: `deactivate`
 
+<<<<<<< HEAD
 ## Test the endpoints
+=======
+# Test the endpoints
+>>>>>>> First version of exporter
 
 Get WARC archive with documents by its identifications (Ids are saved in a sample json file)
 
