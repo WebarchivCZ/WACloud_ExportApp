@@ -9,15 +9,12 @@ from warcio import WARCWriter, StatusAndHeaders
 
 hbase_host = 'localhost'
 hbase_port = 9090
-if 'HBASE_HOST'  in os.environ:
+if 'HBASE_HOST' in os.environ:
     hbase_host = os.environ['HBASE_HOST']
-if 'HBASE_PORT'  in os.environ:
+if 'HBASE_PORT' in os.environ:
     hbase_port = int(os.environ['HBASE_PORT'])
 
 app = Flask(__name__)
-connection = happybase.Connection(hbase_host, hbase_port)
-connection.open()
-table = connection.table('main')
 
 
 class BytesIOWrapper(RawIOBase):
@@ -44,6 +41,10 @@ def process_json():
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         json = request.json
+
+        connection = happybase.Connection(hbase_host, hbase_port)
+        connection.open()
+        table = connection.table('main')
 
         new_file, path = tempfile.mkstemp()
         with open(path, 'wb') as f:
@@ -79,5 +80,4 @@ def process_json():
 
 
 if __name__ == '__main__':
-    app.logger.info(connection.tables())
     app.run()
