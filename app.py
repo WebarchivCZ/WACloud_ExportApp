@@ -7,8 +7,16 @@ import happybase
 from flask import Flask, request
 from warcio import WARCWriter, StatusAndHeaders
 
+hbase_host = 'localhost'
+hbase_port = 9090
+if 'HBASE_HOST'  in os.environ:
+    hbase_host = os.environ['HBASE_HOST']
+if 'HBASE_PORT'  in os.environ:
+    hbase_port = int(os.environ['HBASE_PORT'])
+
 app = Flask(__name__)
-connection = happybase.Connection()
+connection = happybase.Connection(hbase_host, hbase_port)
+connection.open()
 table = connection.table('main')
 
 
@@ -41,6 +49,7 @@ def process_json():
         with open(path, 'wb') as f:
             writer = WARCWriter(f, gzip=True)
             for uuid in json:
+                app.logger.info(uuid)
                 row = table.row(uuid)
                 if b'cf1:IF' not in row:
                     record = writer.create_warc_record(uuid, 'metadata',
@@ -70,4 +79,5 @@ def process_json():
 
 
 if __name__ == '__main__':
+    app.logger.info(connection.tables())
     app.run()

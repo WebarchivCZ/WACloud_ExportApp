@@ -1,0 +1,14 @@
+[Unit]
+Description=WARC Exporter
+After=network.target
+
+[Service]
+User=<OS_USER>
+WorkingDirectory=/<PATH_TO_APP>
+Environment=HBASE_HOST=localhost
+Environment=HBASE_PORT=9090
+ExecStart=/<PATH_TO_APP>/venv/bin/gunicorn -b 0.0.0.0 -w 4 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
